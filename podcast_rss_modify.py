@@ -2,26 +2,28 @@ import requests
 
 from bs4 import BeautifulSoup
 
+# --------- CUSTOMIZATION VARIABLES ---------
+
 feed_url = 'http://feeds.soundcloud.com/playlists/soundcloud:playlists:543996543/sounds.rss'
-feed = requests.get(feed_url).content
-
-soup = BeautifulSoup(feed, features="lxml-xml", from_encoding='utf8')
-
-out_path = 'podcast2.rss'
-
+out_path = 'podcast2.rss'  # New RSS feed will be exported here
 avatar_url = 'http://i1.sndcdn.com/artworks-000362660322-opta98-original.jpg'
-
 changes = [
     ('itunes:email', 'info@gem-net.net'),
     ('itunes:author', 'C-GEM'),
     ('webMaster', 'Stephen Gaffney'),
     ('description', 'Your audio guide to the world of chemical polymers, brought to you by C-GEM.')
     ]
-
 link_replace = dict([
     ('https://soundcloud.com/yaleuniversity/sets/center-for-genetically-encoded', 'http://gem-net.net/podcast'),
     ('http://www.yale.edu', 'http://gem-net.net/podcast'),
     ])
+
+# --------- END OF CUSTOMIZATION VARIABLES ---------
+
+feed = requests.get(feed_url).content
+
+soup = BeautifulSoup(feed, features="lxml-xml", from_encoding='utf8')
+
 
 changed = []
 for field_name, new_val in changes:
